@@ -1,0 +1,69 @@
+function smiley_face()
+% Author: Samira Souley Hassane
+%This function makes a GiF smiley face 
+
+% make a circle of radius 15 
+theta = 0:pi/50:2*pi;
+x = 15*cos(theta);
+y = 15*sin(theta);
+plot(x,y)
+axis([-15 15 -15 15])
+fill(x, y, 'y')
+hold on
+for i = 1:51
+    alpha = (i-1)*(pi/50);
+    
+    % left part of  mouth 
+    x1 = -11*cos(alpha/2);
+    y1 = -11*sin(alpha/2);
+    scatter(x1,y1,'filled','k')
+    hold on 
+    
+    % right part of mouth 
+    x2 = 11*cos(alpha/2);
+    y2 = -11*sin(alpha/2);
+    scatter(x2,y2,'filled','k')
+    hold on
+    
+    % right eye 
+    x3 = 3*cos(alpha)+5;
+    y3 = 3*sin(alpha)+5;
+    scatter(x3,y3,'filled','k')
+    hold on 
+    % left eye 
+    x4 = 3*cos(alpha)- 5;
+    y4 = 3*sin(alpha)+ 5;
+    scatter(x4,y4,'filled','k') 
+    hold on
+    
+    x5 = 3*cos(alpha/2)+9;
+    y5 = 3*sin(alpha/2)-2;
+    scatter(x5,y5,'filled','k')
+    hold on 
+    x6 = -3*cos(alpha/2)-9;
+    y6 = 3*sin(alpha/2)-2;
+    scatter(x6,y6,'filled','k')
+    
+    frame = getframe(gcf); % saves the current figure
+    im{i} = frame2im(frame); % stores it in the list "im"
+    
+end
+
+% gif file
+
+filename = 'Smiley_gif.gif'; % will save to "Current Folder"
+gif_time = 0.01; % roughly the number of seconds for each frame of gif
+
+for f = 1:length(im)
+    
+    [A,map] = rgb2ind(im{f},256);
+    if f == 1
+        imwrite(A,map,filename,"gif","LoopCount",Inf,"DelayTime",gif_time);
+    else
+        imwrite(A,map,filename,"gif","WriteMode","append","DelayTime",gif_time);
+    end
+    
+end
+
+
+end
